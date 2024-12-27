@@ -8,8 +8,19 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 
+/**
+ * Unregisters this listener from all events.
+ */
 fun Listener.unregister() = HandlerList.unregisterAll(this)
 
+/**
+ * Registers an event listener for the specified event type.
+ *
+ * @param T the type of the event
+ * @param priority the priority of the event listener
+ * @param ignoreCancelled whether to ignore canceled events
+ * @param executor the function to execute when the event is triggered
+ */
 inline fun <reified T : Event> Listener.register(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
@@ -25,13 +36,30 @@ inline fun <reified T : Event> Listener.register(
     )
 }
 
+/**
+ * A simple event listener that handles a specific type of event.
+ *
+ * @param T the type of the event
+ * @property priority the priority of the event listener
+ * @property ignoreCancelled whether to ignore canceled events
+ */
 abstract class SimpleListener<T : Event>(
     val priority: EventPriority,
     val ignoreCancelled: Boolean,
 ) : Listener {
+    /**
+     * Called when the event is triggered.
+     *
+     * @param event the event
+     */
     abstract fun onEvent(event: T)
 }
 
+/**
+ * Registers this listener.
+ *
+ * @param T the type of the event
+ */
 inline fun <reified T : Event> SimpleListener<T>.register() {
     pluginInstance.server.pluginManager.registerEvent(
         T::class.java,
@@ -43,6 +71,16 @@ inline fun <reified T : Event> SimpleListener<T>.register() {
     )
 }
 
+/**
+ * Creates and optionally registers a simple event listener.
+ *
+ * @param T the type of the event
+ * @param priority the priority of the event listener
+ * @param ignoreCancelled whether to ignore canceled events
+ * @param register whether to register the listener automatically
+ * @param onEvent the function to execute when the event is triggered
+ * @return the created simple event listener
+ */
 inline fun <reified T : Event> listen(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
