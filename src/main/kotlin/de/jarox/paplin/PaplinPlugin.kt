@@ -2,11 +2,10 @@ package de.jarox.paplin
 
 import org.bukkit.plugin.java.JavaPlugin
 
-lateinit var PluginInstance: PaplinPlugin
+lateinit var pluginInstance: PaplinPlugin
     private set
 
 abstract class PaplinPlugin : JavaPlugin() {
-
     /**
      * Method to be overridden for custom load logic.
      * This method is called during the plugin's load phase.
@@ -31,10 +30,10 @@ abstract class PaplinPlugin : JavaPlugin() {
      * @throws IllegalStateException if PluginInstance is already initialized.
      */
     final override fun onLoad() {
-        if (::PluginInstance.isInitialized) {
+        if (::pluginInstance.isInitialized) {
             throw IllegalStateException("PluginInstance is already initialized.")
         }
-        PluginInstance = this
+        pluginInstance = this
         load()
     }
 
