@@ -5,6 +5,8 @@ plugins {
     `maven-publish`
 
     alias(libs.plugins.paperweight.userdev)
+
+    alias(libs.plugins.ktlint)
 }
 
 group = "de.jarox"
