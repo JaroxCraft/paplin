@@ -1,5 +1,6 @@
 package de.jarox.paplin
 
+import de.jarox.paplin.command.BrigadierSupport
 import org.bukkit.plugin.java.JavaPlugin
 
 lateinit var pluginInstance: PaplinPlugin
@@ -42,6 +43,10 @@ abstract class PaplinPlugin : JavaPlugin() {
      */
     final override fun onEnable() {
         enable()
+
+        if (this.isEnabled) {
+            BrigadierSupport.registerAll()
+        }
     }
 
     /**
