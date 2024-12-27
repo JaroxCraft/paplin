@@ -32,6 +32,23 @@ tasks.register<Jar>("dokkaJavadocJar") {
 }
 
 publishing {
+
+    repositories {
+        maven {
+            name = "repsy"
+            url = uri("https://repo.repsy.io/mvn/jaroxcraft/paplin")
+
+            val credentials = System.getenv("REPSY_USER") to System.getenv("REPSY_PASSWORD")
+            println("REPSY_USER: ${credentials.first}")
+            println("REPSY_PASSWORD: ${credentials.second}")
+
+            credentials {
+                username = credentials.first
+                password = credentials.second
+            }
+        }
+    }
+
     publications {
         register<MavenPublication>(project.name) {
             from(components["java"])
