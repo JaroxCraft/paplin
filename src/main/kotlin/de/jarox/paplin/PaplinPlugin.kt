@@ -6,6 +6,10 @@ import org.bukkit.plugin.java.JavaPlugin
 lateinit var pluginInstance: PaplinPlugin
     private set
 
+
+
+
+
 abstract class PaplinPlugin : JavaPlugin() {
     /**
      * Method to be overridden for custom load logic.
@@ -41,8 +45,7 @@ abstract class PaplinPlugin : JavaPlugin() {
     /**
      * Calls the enable method.
      */
-    final override fun onEnable() {
-        enable()
+    final override fun onEnable() { enable()
 
         if (this.isEnabled) {
             BrigadierSupport.registerAll()
@@ -52,7 +55,10 @@ abstract class PaplinPlugin : JavaPlugin() {
     /**
      * Calls the disable method.
      */
+
     final override fun onDisable() {
+
+
         disable()
     }
 }
