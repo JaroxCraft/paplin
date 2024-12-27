@@ -12,6 +12,8 @@ plugins {
 group = "de.jarox"
 version = "1.0.0"
 
+val ghRepoUrl = "https://github.com/jaroxcraft/paplin"
+
 repositories {
     mavenCentral()
 }
@@ -39,8 +41,6 @@ publishing {
             url = uri("https://repo.repsy.io/mvn/jaroxcraft/paplin")
 
             val credentials = System.getenv("REPSY_USER") to System.getenv("REPSY_PASSWORD")
-            println("REPSY_USER: ${credentials.first}")
-            println("REPSY_PASSWORD: ${credentials.second}")
 
             credentials {
                 username = credentials.first
@@ -52,6 +52,36 @@ publishing {
     publications {
         register<MavenPublication>(project.name) {
             from(components["java"])
+
+            pom {
+                this.url.set(ghRepoUrl)
+
+                developers {
+                    developer {
+                        id.set("jaroxcraft")
+                        name.set("JaroxCraft")
+                        email.set("jarox@jarox.de")
+                    }
+                }
+                licenses {
+                    license {
+                        name = "MIT License"
+                        url = "$ghRepoUrl/blob/master/LICENSE"
+                    }
+                }
+                issueManagement {
+                    system = "GitHub"
+                    url = ghRepoUrl
+                }
+                scm {
+                    url = ghRepoUrl
+                    connection = "scm:git:$ghRepoUrl.git"
+                    developerConnection = "scm:git:$ghRepoUrl.git"
+                }
+                this.organization {
+                    this.name = "Paplin"
+                }
+            }
 
             artifact(tasks["dokkaJavadocJar"])
 
