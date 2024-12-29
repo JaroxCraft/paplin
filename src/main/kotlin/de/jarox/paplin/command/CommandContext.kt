@@ -18,7 +18,7 @@ class CommandContext(val nmsContext: CommandContext<CommandSourceStack>) {
     /**
      * The source / sender which executed this command.
      */
-    val sender: CommandSourceStack get() = nmsContext.source
+    val source: CommandSourceStack get() = nmsContext.source
 
     /**
      * Validates that this command was executed by a player (sends an error message to the sender if this is not the case)
