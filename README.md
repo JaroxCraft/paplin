@@ -12,6 +12,10 @@
 
 ### Installation
 
+Clone the [template repository](https://github.com/JaroxCraft/paplin-example-project)
+
+or
+
 Add Paplin as a dependency in your `build.gradle.kts`:
 
 ```kotlin
@@ -42,7 +46,7 @@ import de.jarox.paplin.extension.broadcast
 import net.kyori.adventure.text.Component
 import org.bukkit.event.block.BlockBreakEvent
 
-class Battle : PaplinPlugin() {
+class MyPlugin : PaplinPlugin() {
 
     override fun enable() {
         // register a simple command
