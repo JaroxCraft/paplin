@@ -12,7 +12,7 @@
 
 ### Installation
 
-Clone the [template repository](https://github.com/JaroxCraft/paplin-example-project)
+Clone the [template repository](https://github.com/new?template_name=paplin-example-project&template_owner=JaroxCraft)
 
 or
 
