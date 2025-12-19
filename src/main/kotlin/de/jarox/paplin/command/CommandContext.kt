@@ -9,7 +9,9 @@ import org.bukkit.Server
 import org.bukkit.World
 import org.bukkit.entity.Player
 
-class CommandContext(val nmsContext: CommandContext<CommandSourceStack>) {
+class CommandContext(
+    val nmsContext: CommandContext<CommandSourceStack>,
+) {
     /**
      * Get the value of the given argument.
      */
