@@ -19,7 +19,9 @@ inline fun component(
     builder: ComponentBuilder.() -> Unit = { },
 ) = ComponentBuilder(baseText).apply(builder).build()
 
-class ComponentBuilder(val baseCmp: Component) {
+class ComponentBuilder(
+    val baseCmp: Component,
+) {
     constructor(baseTxt: String) : this(Component.text(baseTxt))
 
     var bold: Boolean? = null
@@ -55,13 +57,12 @@ class ComponentBuilder(val baseCmp: Component) {
         newLine()
     }
 
-    fun build(): Component {
-        return if (siblingText.children().isNotEmpty()) {
+    fun build(): Component =
+        if (siblingText.children().isNotEmpty()) {
             baseCmp.stylize().append(siblingText.stylize())
         } else {
             baseCmp.stylize()
         }
-    }
 
     private fun Component.stylize(): Component {
         var style = style()

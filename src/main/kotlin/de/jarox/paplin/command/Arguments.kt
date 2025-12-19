@@ -31,7 +31,9 @@ inline fun <reified T> ArgumentBuilder<CommandSourceStack, *>.argument(
     name: String,
     builder: RequiredArgumentBuilder<CommandSourceStack, T>.() -> Unit = {},
 ): RequiredArgumentBuilder<CommandSourceStack, T> =
-    RequiredArgumentBuilder.argument<CommandSourceStack, T>(name, ArgumentTypeUtils.fromReifiedType<T>()).apply(builder)
+    RequiredArgumentBuilder
+        .argument<CommandSourceStack, T>(name, ArgumentTypeUtils.fromReifiedType<T>())
+        .apply(builder)
         .also { then(it) }
 
 /**
