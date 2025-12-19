@@ -29,12 +29,6 @@ java {
     withSourcesJar()
 }
 
-tasks.register<Jar>("dokkaJavadocJar") {
-    dependsOn(tasks.dokkaJavadoc)
-    from(tasks.dokkaJavadoc.flatMap { it.outputDirectory })
-    archiveClassifier.set("javadoc")
-}
-
 publishing {
 
     repositories {
@@ -84,8 +78,6 @@ publishing {
                     this.name = "Paplin"
                 }
             }
-
-            artifact(tasks["dokkaJavadocJar"])
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.lowercase()
