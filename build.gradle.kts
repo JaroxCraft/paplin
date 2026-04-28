@@ -21,11 +21,11 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("${project.property("minecraftVersion")}-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("${project.property("minecraftVersion")}.build.+")
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
     withSourcesJar()
 }
 
