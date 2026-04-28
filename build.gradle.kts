@@ -9,10 +9,11 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
+val paplinVersion: String by project
 val minecraftVersion: String by project
 
 group = "de.jarox"
-version = "1.0.0-$minecraftVersion"
+version = "$paplinVersion+$minecraftVersion"
 
 val ghRepoUrl = "https://github.com/jaroxcraft/paplin"
 

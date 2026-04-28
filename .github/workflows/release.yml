@@ -1,0 +1,105 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*+*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate tag matches gradle.properties
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          PAPLIN_VER="${VERSION%%+*}"
+          MC_VER="${VERSION##*+}"
+
+          if ! echo "$PAPLIN_VER" | grep -qP '^\d+\.\d+\.\d+(-[\w.]+)?$'; then
+            echo "::error::Invalid paplin version format: $PAPLIN_VER. Expected semver (e.g. 1.0.0 or 1.0.0-beta.1)"
+            exit 1
+          fi
+          if ! echo "$MC_VER" | grep -qP '^\d+\.\d+\.\d+$'; then
+            echo "::error::Invalid minecraft version format: $MC_VER. Expected semver (e.g. 26.1.2)"
+            exit 1
+          fi
+
+          PROPS_PAPLIN=$(grep '^paplinVersion=' gradle.properties | cut -d= -f2)
+          PROPS_MC=$(grep '^minecraftVersion=' gradle.properties | cut -d= -f2)
+
+          echo "Tag:        v${PAPLIN_VER}+${MC_VER}"
+          echo "Properties: ${PROPS_PAPLIN}+${PROPS_MC}"
+
+          if [ "$PAPLIN_VER" != "$PROPS_PAPLIN" ] || [ "$MC_VER" != "$PROPS_MC" ]; then
+            echo "::error::Tag version does not match gradle.properties."
+            echo "  Tag says:   ${PAPLIN_VER}+${MC_VER}"
+            echo "  Props says: ${PROPS_PAPLIN}+${PROPS_MC}"
+            echo "Bump gradle.properties first, then re-tag."
+            exit 1
+          fi
+
+          echo "full=${VERSION}"         >> $GITHUB_OUTPUT
+          echo "paplin=${PAPLIN_VER}"    >> $GITHUB_OUTPUT
+          echo "minecraft=${MC_VER}"     >> $GITHUB_OUTPUT
+          if echo "$PAPLIN_VER" | grep -q -- '-'; then
+            echo "prerelease=true"       >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false"      >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check and build
+        run: ./gradlew check
+
+      - name: Publish
+        run: ./gradlew publish
+        env:
+          REPSY_USER: ${{ secrets.REPSY_USER }}
+          REPSY_PASSWORD: ${{ secrets.REPSY_PASSWORD }}
+
+      - name: Verify artifact on Repsy
+        run: |
+          VERSION="${{ steps.version.outputs.full }}"
+          URL="https://repo.repsy.io/mvn/jaroxcraft/paplin/de/jarox/paplin/${VERSION}/paplin-${VERSION}.pom"
+          echo "Polling: $URL"
+          for i in $(seq 1 12); do
+            STATUS=$(curl --silent --output /dev/null --write-out "%{http_code}" "$URL")
+            if [ "$STATUS" = "200" ]; then
+              echo "Artifact confirmed after ${i} attempt(s)."
+              exit 0
+            fi
+            echo "Attempt $i: HTTP $STATUS — waiting 5s"
+            sleep 5
+          done
+          echo "::error::Artifact not found on Repsy after 60 seconds."
+          exit 1
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Paplin ${{ steps.version.outputs.paplin }} for Minecraft ${{ steps.version.outputs.minecraft }}"
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          prerelease: ${{ steps.version.outputs.prerelease == 'true' }}
+          body: |
+            **Artifact:** `de.jarox:paplin:${{ steps.version.outputs.full }}`
+            **Repository:** `https://repo.repsy.io/mvn/jaroxcraft/paplin`
+
+            ```kotlin
+            // gradle/libs.versions.toml
+            paplin = "${{ steps.version.outputs.paplin }}"
+            minecraft = "${{ steps.version.outputs.minecraft }}"
+            ```
