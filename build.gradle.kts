@@ -10,7 +10,7 @@ plugins {
 }
 
 val paplinVersion: String by project
-val minecraftVersion: String by project
+val minecraftVersion = libs.versions.minecraft.get()
 
 group = "de.jarox"
 version = "$paplinVersion+$minecraftVersion"
@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("${project.property("minecraftVersion")}.build.+")
+    paperweight.paperDevBundle("$minecraftVersion.build.+")
 }
 
 java {
