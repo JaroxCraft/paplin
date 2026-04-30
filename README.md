@@ -72,6 +72,10 @@ class MyPlugin : PaplinPlugin() {
 }
 ```
 
+## Documentation
+
+- **API Reference**: Available at [jaroxcraft.github.io/paplin](https://jaroxcraft.github.io/paplin)
+
 ## License
 
 Paplin is licensed under the [MIT License](LICENSE).
