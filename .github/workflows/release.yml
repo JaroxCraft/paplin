@@ -39,16 +39,17 @@ jobs:
           fi
 
           PROPS_PAPLIN=$(grep '^paplinVersion=' gradle.properties | cut -d= -f2)
-          PROPS_MC=$(grep '^minecraftVersion=' gradle.properties | cut -d= -f2)
+          PROPS_MC=$(grep '^minecraft = ' gradle/libs.versions.toml | sed 's/.*"\([^"]*\)".*/\1/')
 
           echo "Tag:        v${PAPLIN_VER}+${MC_VER}"
           echo "Properties: ${PROPS_PAPLIN}+${PROPS_MC}"
 
           if [ "$PAPLIN_VER" != "$PROPS_PAPLIN" ] || [ "$MC_VER" != "$PROPS_MC" ]; then
-            echo "::error::Tag version does not match gradle.properties."
-            echo "  Tag says:   ${PAPLIN_VER}+${MC_VER}"
-            echo "  Props says: ${PROPS_PAPLIN}+${PROPS_MC}"
-            echo "Bump gradle.properties first, then re-tag."
+            echo "::error::Tag version does not match project versions."
+            echo "  Tag says:      ${PAPLIN_VER}+${MC_VER}"
+            echo "  gradle.props:  ${PROPS_PAPLIN}"
+            echo "  versions.toml: ${PROPS_MC}"
+            echo "Bump versions first, then re-tag."
             exit 1
           fi
 
