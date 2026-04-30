@@ -68,10 +68,7 @@ jobs:
         run: ./gradlew check
 
       - name: Generate documentation
-        run: ./gradlew dokkaGenerateHtml --no-configuration-cache --rerun-tasks
-
-      - name: Verify docs exist
-        run: ls -la build/docs/
+        run: ./gradlew dokkaGeneratePublicationHtml --no-configuration-cache --rerun-tasks
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
