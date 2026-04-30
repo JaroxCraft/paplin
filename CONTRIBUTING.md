@@ -55,16 +55,22 @@ There is no in-library test suite. To test DSL changes against a real plugin:
 
 Published artifact: `de.jarox:paplin:{paplinVersion}+{minecraftVersion}`
 
-Both versions live in `gradle.properties`:
+Versions are split across two files:
 
 ```properties
+# gradle.properties
 paplinVersion=1.0.0
-minecraftVersion=26.1.2
+```
+
+```toml
+# gradle/libs.versions.toml
+[versions]
+minecraft = "26.1.2"
 ```
 
 | Situation | `paplinVersion` | `minecraftVersion` |
 |---|---|---|
-| MC update, no API change | unchanged | bump |
+| MC update, no API change | unchanged | bump in `libs.versions.toml` |
 | New DSL feature | MINOR bump | maybe |
 | Breaking API change | MAJOR bump | maybe |
 | Bug fix only | PATCH bump | unchanged |
@@ -76,30 +82,35 @@ minecraftVersion=26.1.2
 
 **Step-by-step:**
 
-1. Merge all intended changes to `main`. CI must be green.
+1. Merge all intended changes to `master`. CI must be green.
 
-2. Decide what changed (see table above) and bump the relevant version(s) in `gradle.properties`:
+2. Decide what changed (see table above) and bump the relevant version(s):
    ```properties
+   # gradle.properties
    paplinVersion=1.1.0
-   minecraftVersion=26.1.2
+   ```
+   ```toml
+   # gradle/libs.versions.toml
+   [versions]
+   minecraft = "26.1.2"
    ```
 
-3. Commit directly to `main`:
+3. Commit directly to `master`:
    ```bash
-   git add gradle.properties
+   git add gradle.properties gradle/libs.versions.toml
    git commit -m "chore: release 1.1.0+26.1.2"
-   git push origin main
+   git push origin master
    ```
 
-4. Tag the commit. The tag must exactly match the versions in `gradle.properties`:
+4. Tag the commit. The tag must exactly match the versions in the project files:
    ```bash
    git tag v1.1.0+26.1.2
    git push origin v1.1.0+26.1.2
    ```
-   The release workflow validates this before doing anything. If tag ≠ properties, the workflow fails immediately with a clear error — nothing is published.
+   The release workflow validates this before doing anything. If tag ≠ project files, the workflow fails immediately with a clear error — nothing is published.
 
 5. Watch the Actions tab. The workflow:
-   - Validates tag vs `gradle.properties`
+   - Validates tag vs `gradle.properties` and `gradle/libs.versions.toml`
    - Runs `./gradlew check`
    - Publishes to Repsy
    - Polls until the artifact appears (up to 60 seconds)
@@ -109,7 +120,7 @@ minecraftVersion=26.1.2
 
 ## Bumping the Minecraft version
 
-1. Update `minecraftVersion` in `gradle.properties`
+1. Update `minecraft` in `gradle/libs.versions.toml`
 2. Update `paperweight-userdev` in `gradle/libs.versions.toml` if a new plugin version is available
 3. Fix any compilation errors from API changes
 4. Run `./gradlew ktlintFormat && ./gradlew check`
@@ -125,7 +136,7 @@ If the workflow publishes a broken artifact:
 
 1. Yank the release on GitHub (mark it as a pre-release or delete it)
 2. Contact Repsy support if the artifact needs removal from the registry
-3. Fix the issue on `main`
+3. Fix the issue on `master`
 4. Delete the bad tag locally and remotely:
    ```bash
    git tag -d v1.1.0+26.1.2
