@@ -9,6 +9,12 @@ import org.bukkit.Server
 import org.bukkit.World
 import org.bukkit.entity.Player
 
+/**
+ * Provides context for command execution, including access to command arguments,
+ * the source of the command, and convenient access to common Bukkit objects.
+ *
+ * @property nmsContext the underlying Brigadier command context
+ */
 class CommandContext(
     val nmsContext: CommandContext<CommandSourceStack>,
 ) {
@@ -32,9 +38,9 @@ class CommandContext(
     /**
      * The world where the source of this command currently is in.
      *
-     * Please note: this could be null and therefore throw an exception if called, but
-     * these cases are rare (e.g., command called by a datapack function), therefore,
-     * this property is not nullable for convenience
+     * This could be null and therefore throw an exception if called,
+     * e.g. when the command is executed by the console or datapack functions,
+     * but these cases are rare.
      */
     val world: World get() = nmsContext.source.bukkitWorld!!
 
@@ -50,5 +56,5 @@ class CommandContext(
     /**
      * The current server instance.
      */
-    val server: Server get() = nmsContext.source.server.server as Server
+    val server: Server get() = nmsContext.source.server.server
 }

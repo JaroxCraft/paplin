@@ -3,6 +3,11 @@ package de.jarox.paplin
 import de.jarox.paplin.command.BrigadierSupport
 import org.bukkit.plugin.java.JavaPlugin
 
+/**
+ * Global reference to the currently loaded PaplinPlugin instance.
+ *
+ * @throws IllegalStateException if accessed before the plugin is loaded
+ */
 lateinit var pluginInstance: PaplinPlugin
     private set
 

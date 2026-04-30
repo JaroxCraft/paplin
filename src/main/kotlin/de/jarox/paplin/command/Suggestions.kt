@@ -59,22 +59,14 @@ inline fun <S> RequiredArgumentBuilder<S, *>.suggestListWithTooltips(
 
 @PublishedApi
 internal fun SuggestionsBuilder.applyAny(any: Any?) {
-    when (any) {
-        is Int -> suggest(any)
-        is String -> suggest(any)
-        else -> suggest(any.toString())
-    }
+    suggest(any.toString())
 }
 
 @PublishedApi
 internal fun SuggestionsBuilder.applyAnyWithTooltip(pair: Pair<Any?, Message>?) {
     if (pair == null) return
     val (any, message) = pair
-    when (any) {
-        is Int -> suggest(any, message)
-        is String -> suggest(any, message)
-        else -> suggest(any.toString(), message)
-    }
+    suggest(any.toString(), message)
 }
 
 @PublishedApi

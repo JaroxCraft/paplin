@@ -11,6 +11,10 @@ import net.minecraft.commands.Commands
 import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.event.player.PlayerJoinEvent
 
+/**
+ * Internal support object for managing Brigadier command registration.
+ * Handles command tree synchronization with clients and permission setup.
+ */
 @OptIn(NMS::class)
 object BrigadierSupport {
     @PublishedApi
@@ -29,6 +33,9 @@ object BrigadierSupport {
         }
     }
 
+    /**
+     * Resolves the server's command manager.
+     */
     @NMS
     fun resolveCommandManager(): Commands = craftServer.server.commands
 
@@ -43,6 +50,9 @@ object BrigadierSupport {
         if (onlinePlayers.isNotEmpty()) updateCommandTree()
     }
 
+    /**
+     * Updates the command tree for all online players.
+     */
     @NMS
     fun updateCommandTree() {
         for (player in onlinePlayers) {

@@ -4,7 +4,15 @@ package de.jarox.paplin.command
 
 import com.mojang.brigadier.arguments.*
 
+/**
+ * Utility functions for working with Brigadier argument types.
+ */
 object ArgumentTypeUtils {
+    /**
+     * Creates a Brigadier [ArgumentType] from a reified Kotlin type.
+     *
+     * @throws IllegalArgumentException if the type does not have a corresponding default argument type
+     */
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T> fromReifiedType() =
         when (T::class) {

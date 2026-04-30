@@ -19,21 +19,43 @@ inline fun component(
     builder: ComponentBuilder.() -> Unit = { },
 ) = ComponentBuilder(baseText).apply(builder).build()
 
+/**
+ * Fluent builder for creating Adventure [Component] objects with style support.
+ *
+ * @property baseCmp the base component to build upon
+ */
 class ComponentBuilder(
     val baseCmp: Component,
 ) {
     constructor(baseTxt: String) : this(Component.text(baseTxt))
 
+    /** Whether the text should be bold. */
     var bold: Boolean? = null
+
+    /** Whether the text should be italic. */
     var italic: Boolean? = null
+
+    /** Whether the text should be underlined. */
     var underline: Boolean? = null
+
+    /** Whether the text should be strikethrough. */
     var strikethrough: Boolean? = null
+
+    /** Whether the text should be obfuscated. */
     var obfuscate: Boolean? = null
 
+    /** The text color. */
     var color: TextColor? = null
 
+    /** The text being built up. */
     var siblingText = empty()
 
+    /**
+     * Appends a text component with optional styling.
+     *
+     * @param text the text to append
+     * @param builder the builder for styling the new text
+     */
     inline fun text(
         text: String = "",
         builder: ComponentBuilder.() -> Unit = { },
@@ -41,6 +63,12 @@ class ComponentBuilder(
         siblingText = siblingText.append(ComponentBuilder(text).apply(builder).build())
     }
 
+    /**
+     * Appends an existing component with optional styling.
+     *
+     * @param component the component to append
+     * @param builder the builder for styling the component
+     */
     inline fun component(
         component: Component,
         builder: ComponentBuilder.() -> Unit = { },
@@ -48,15 +76,22 @@ class ComponentBuilder(
         siblingText = siblingText.append(ComponentBuilder(component).apply(builder).build())
     }
 
+    /** Appends a newline character. */
     fun newLine() {
         siblingText = siblingText.append(newline())
     }
 
+    /** Appends two newline characters (empty line). */
     fun emptyLine() {
         newLine()
         newLine()
     }
 
+    /**
+     * Builds and returns the final component.
+     *
+     * @return the built component
+     */
     fun build(): Component =
         if (siblingText.children().isNotEmpty()) {
             baseCmp.stylize().append(siblingText.stylize())
@@ -65,19 +100,18 @@ class ComponentBuilder(
         }
 
     private fun Component.stylize(): Component {
-        var style = style()
-        val decorations = style.decorations().toMutableMap()
+        val newStyle =
+            style()
+                .decorations(
+                    mapOf(
+                        TextDecoration.BOLD to TextDecoration.State.byBoolean(bold),
+                        TextDecoration.ITALIC to TextDecoration.State.byBoolean(italic),
+                        TextDecoration.UNDERLINED to TextDecoration.State.byBoolean(underline),
+                        TextDecoration.STRIKETHROUGH to TextDecoration.State.byBoolean(strikethrough),
+                        TextDecoration.OBFUSCATED to TextDecoration.State.byBoolean(obfuscate),
+                    ),
+                ).let { s -> color?.let(s::color) ?: s }
 
-        decorations[TextDecoration.BOLD] = TextDecoration.State.byBoolean(bold)
-        decorations[TextDecoration.ITALIC] = TextDecoration.State.byBoolean(italic)
-        decorations[TextDecoration.UNDERLINED] = TextDecoration.State.byBoolean(underline)
-        decorations[TextDecoration.STRIKETHROUGH] = TextDecoration.State.byBoolean(strikethrough)
-        decorations[TextDecoration.OBFUSCATED] = TextDecoration.State.byBoolean(obfuscate)
-
-        style = style.decorations(decorations)
-
-        color?.let { style = style.color(it) }
-
-        return this.style(style)
+        return style(newStyle)
     }
 }
