@@ -116,16 +116,6 @@ esac
 
 
 
-# Source sdkman if JAVA_HOME is not set and java is not on PATH
-if [ -z "$JAVA_HOME" ] && ! command -v java >/dev/null 2>&1 ; then
-    for sdkman_init in "$HOME/.sdkman/bin/sdkman-init.sh" "/usr/local/sdkman/bin/sdkman-init.sh"; do
-        if [ -f "$sdkman_init" ]; then
-            . "$sdkman_init"
-            break
-        fi
-    done
-fi
-
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
