@@ -1,8 +1,10 @@
 @file:Suppress("unused")
+@file:OptIn(NMS::class)
 
 package de.jarox.paplin.command
 
 import com.mojang.brigadier.context.CommandContext
+import de.jarox.paplin.annotation.NMS
 import net.minecraft.commands.CommandSourceStack
 import org.bukkit.Location
 import org.bukkit.Server
