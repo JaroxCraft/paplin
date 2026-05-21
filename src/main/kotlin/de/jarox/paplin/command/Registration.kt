@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+@file:OptIn(NMS::class)
 
 package de.jarox.paplin.command
 

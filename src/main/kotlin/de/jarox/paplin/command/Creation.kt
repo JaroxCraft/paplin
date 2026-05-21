@@ -1,9 +1,11 @@
 @file:Suppress("unused")
+@file:OptIn(NMS::class)
 
 package de.jarox.paplin.command
 
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import de.jarox.paplin.annotation.NMS
 import net.minecraft.commands.CommandSourceStack
 
 /**
