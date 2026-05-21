@@ -34,14 +34,12 @@ publishing {
 
     repositories {
         maven {
-            name = "repsy"
-            url = uri("https://repo.repsy.io/mvn/jaroxcraft/paplin")
-
-            val credentials = System.getenv("REPSY_USER") to System.getenv("REPSY_PASSWORD")
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/JaroxCraft/paplin")
 
             credentials {
-                username = credentials.first
-                password = credentials.second
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }

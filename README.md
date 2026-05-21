@@ -22,12 +22,12 @@ Add Paplin as a dependency in your `build.gradle.kts`:
 repositories {
     maven {
         name = "Paplin"
-        url = uri("https://repo.repsy.io/mvn/jaroxcraft/paplin")
+        url = uri("https://maven.pkg.github.com/JaroxCraft/paplin")
+        credentials {
+            username = providers.environmentVariable("GITHUB_ACTOR").orNull
+            password = providers.environmentVariable("GITHUB_TOKEN").orNull
+        }
     }
-}
-
-dependencies {
-    implementation("de.jarox:paplin:<latest release>")
 }
 ```
 

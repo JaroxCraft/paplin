@@ -2,14 +2,14 @@
 
 ## What this is
 
-Kotlin library wrapping Paper Minecraft server API with idiomatic Kotlin DSLs. Published to Repsy Maven. No application entrypoint — consumed by downstream plugin projects. No test suite.
+Kotlin library wrapping Paper Minecraft server API with idiomatic Kotlin DSLs. Published to GitHub Packages. No application entrypoint — consumed by downstream plugin projects. No test suite.
 
 ## Critical facts
 
 - **Java target: 25** (not 21 — CLAUDE.md is stale)
 - **Version format:** `$paplinVersion+$minecraftVersion` (uses `+`, SemVer build metadata). The `+` separator is intentional — Maven resolves it fine on Repsy.
 - **Default branch is `master`**. CI workflows are configured for `master`.
-- **Repsy is public for reads** — no auth needed to fetch artifacts.
+- **GitHub Packages requires authentication for reads** — set `GITHUB_ACTOR` and `GITHUB_TOKEN` env vars.
 
 ## Commands
 
@@ -18,14 +18,14 @@ Kotlin library wrapping Paper Minecraft server API with idiomatic Kotlin DSLs. P
 ./gradlew ktlintFormat   # auto-format
 ./gradlew ktlintCheck    # check-only
 ./gradlew build          # compile only
-./gradlew publish        # requires REPSY_USER + REPSY_PASSWORD env vars
+./gradlew publish        # requires GITHUB_ACTOR + GITHUB_TOKEN env vars
 ```
 
 ## Releases
 
-Tag-driven. Push a `v*` tag → `release.yml` validates tag matches versions in `gradle.properties` and `gradle/libs.versions.toml`, publishes, polls Repsy for 60s, creates GitHub Release.
+Tag-driven. Push a `v*` tag → `release.yml` validates tag matches versions in `gradle.properties` and `gradle/libs.versions.toml`, publishes, polls GitHub Packages for 60s, creates GitHub Release.
 
-**Never hardcode credentials.** They come from `REPSY_USER` / `REPSY_PASSWORD` env vars.
+**Never hardcode credentials.** They come from `GITHUB_ACTOR` / `GITHUB_TOKEN` env vars.
 
 **The `+` character is NOT valid in GitHub Actions tag filter patterns.** Use `v*` and validate format in the script.
 
@@ -58,9 +58,12 @@ Pre-release tags (e.g. `v1.0.0-beta.1+26.1.2`) create GitHub Releases marked as 
 
 No in-library tests. To verify changes against a real plugin:
 
-1. `./gradlew publishToMavenLocal` (publishes to `~/.m2`)
-2. Add `mavenLocal()` before the Repsy repo in the example project's `build.gradle.kts`
-3. Build example project, remove `mavenLocal()` before committing
+1. **Composite build** (fastest, no publish needed):  
+   In the example project, run `./gradlew -Ppaplin.local.path=../paplin runServer`.
+
+2. **Maven local**:  
+   In Paplin, run `./gradlew publishToMavenLocal`.  
+   In the example project, run `./gradlew -PuseMavenLocal runServer`.
 
 ## `@NMS` policy
 
