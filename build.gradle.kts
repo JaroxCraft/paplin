@@ -30,6 +30,14 @@ java {
     withSourcesJar()
 }
 
+tasks.register<Jar>("dokkaHtmlJar") {
+    group = "documentation"
+    description = "Assembles a JAR archive containing the Dokka HTML documentation."
+    dependsOn(tasks.dokkaGenerateHtml)
+    from(tasks.dokkaGenerateHtml.map { it.outputs.files })
+    archiveClassifier.set("javadoc")
+}
+
 publishing {
 
     repositories {
@@ -49,6 +57,7 @@ publishing {
     publications {
         register<MavenPublication>(project.name) {
             from(components["java"])
+            artifact(tasks["dokkaHtmlJar"])
 
             pom {
                 this.url.set(ghRepoUrl)
