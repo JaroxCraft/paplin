@@ -33,51 +33,7 @@ dependencies {
 
 ### Example Usage
 
-Create a simple plugin using Paplin:
-
-```kotlin
-import de.jarox.paplin.PaplinPlugin
-import de.jarox.paplin.chat.component
-import de.jarox.paplin.command.argument
-import de.jarox.paplin.command.command
-import de.jarox.paplin.command.runs
-import de.jarox.paplin.event.listen
-import de.jarox.paplin.extension.broadcast
-import de.jarox.paplin.scheduler.runAsync
-import net.kyori.adventure.text.Component
-import org.bukkit.event.block.BlockBreakEvent
-
-class MyPlugin : PaplinPlugin() {
-
-    override fun enable() {
-        // register a simple command
-        command("mycommand") {
-            runs {
-                // automatically only allow players to execute this command
-                player.sendMessage(Component.text("Hello, world!"))
-            }
-            
-            // simple argument
-            argument<String>("message") {
-                runs {
-                    this.source.sender.sendMessage(component(getArgument("message")))
-                }
-            }
-        }
-
-        // register a simple listener
-        listen<BlockBreakEvent> {
-            broadcast(Component.text("${it.player.name} broke a block!"))
-        }
-
-        // run async task off the main thread
-        runAsync {
-            // heavy work without blocking the server
-            broadcast(Component.text("Async task completed!"))
-        }
-    }
-}
-```
+See the [ExamplePlugin.kt](https://github.com/JaroxCraft/paplin-example-project/blob/master/src/main/kotlin/de/jarox/paplin/example/ExamplePlugin.kt) in the `paplin-example-project` repository for a complete usage example.
 
 ## Documentation
 
