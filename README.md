@@ -43,6 +43,7 @@ import de.jarox.paplin.command.command
 import de.jarox.paplin.command.runs
 import de.jarox.paplin.event.listen
 import de.jarox.paplin.extension.broadcast
+import de.jarox.paplin.scheduler.runAsync
 import net.kyori.adventure.text.Component
 import org.bukkit.event.block.BlockBreakEvent
 
@@ -67,6 +68,12 @@ class MyPlugin : PaplinPlugin() {
         // register a simple listener
         listen<BlockBreakEvent> {
             broadcast(Component.text("${it.player.name} broke a block!"))
+        }
+
+        // run async task off the main thread
+        runAsync {
+            // heavy work without blocking the server
+            broadcast(Component.text("Async task completed!"))
         }
     }
 }
