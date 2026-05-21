@@ -88,12 +88,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify artifact on GitHub Packages
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION="${{ steps.version.outputs.full }}"
           URL="https://maven.pkg.github.com/JaroxCraft/paplin/de/jarox/paplin/${VERSION}/paplin-${VERSION}.pom"
           echo "Polling: $URL"
           for i in $(seq 1 12); do
-            STATUS=$(curl --silent --output /dev/null --write-out "%{http_code}" -u "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" "$URL")
+            STATUS=$(curl --silent --output /dev/null --write-out "%{http_code}" -u "$GITHUB_ACTOR:$GITHUB_TOKEN" "$URL")
             if [ "$STATUS" = "200" ]; then
               echo "Artifact confirmed after ${i} attempt(s)."
               exit 0
