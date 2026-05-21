@@ -1,3 +1,5 @@
+@file:Suppress("EmptyMethod")
+
 package de.jarox.paplin
 
 import de.jarox.paplin.command.BrigadierSupport
