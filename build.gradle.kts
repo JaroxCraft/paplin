@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("$minecraftVersion.build.+")
+    paperweight.paperDevBundle(libs.versions.paper.get())
 }
 
 java {
