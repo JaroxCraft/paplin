@@ -47,6 +47,7 @@ object BrigadierSupport {
         for (command in commands) {
             resolveCommandManager().dispatcher.register(command)
         }
+        commands.clear()
         if (onlinePlayers.isNotEmpty()) updateCommandTree()
     }
 

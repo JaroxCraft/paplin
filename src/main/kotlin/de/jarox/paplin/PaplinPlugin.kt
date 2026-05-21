@@ -33,12 +33,10 @@ abstract class PaplinPlugin : JavaPlugin() {
 
     /**
      * Initializes the PluginInstance and calls the load method.
-     * @throws IllegalStateException if PluginInstance is already initialized.
+     * Supports plugin reloads by allowing reassignment.
      */
     final override fun onLoad() {
-        if (::pluginInstance.isInitialized) {
-            throw IllegalStateException("PluginInstance is already initialized.")
-        }
+        // Allow reassignment to support plugin reloads
         pluginInstance = this
         load()
     }
