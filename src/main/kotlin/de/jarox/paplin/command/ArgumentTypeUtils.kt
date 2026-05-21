@@ -3,6 +3,8 @@
 package de.jarox.paplin.command
 
 import com.mojang.brigadier.arguments.*
+import net.minecraft.commands.arguments.UuidArgument
+import java.util.UUID
 
 /**
  * Utility functions for working with Brigadier argument types.
@@ -22,6 +24,7 @@ object ArgumentTypeUtils {
             Float::class -> FloatArgumentType.floatArg()
             Double::class -> DoubleArgumentType.doubleArg()
             String::class -> StringArgumentType.string()
+            UUID::class -> UuidArgument.uuid()
 
             else -> throw IllegalArgumentException(
                 "The specified type '${T::class.qualifiedName}' does not have corresponding default argument type",
