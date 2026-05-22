@@ -4,6 +4,7 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIPaperConfig
 import org.bukkit.plugin.java.JavaPlugin
 
+@Suppress("unused")
 abstract class PaplinPlugin : JavaPlugin() {
     /**
      * Method to be overridden for custom load logic.
