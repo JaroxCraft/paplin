@@ -1,19 +1,10 @@
-@file:Suppress("EmptyMethod")
-
 package de.jarox.paplin
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIPaperConfig
 import org.bukkit.plugin.java.JavaPlugin
 
-/**
- * Global reference to the currently loaded PaplinPlugin instance.
- *
- * @throws IllegalStateException if accessed before the plugin is loaded
- */
-lateinit var pluginInstance: PaplinPlugin
-    private set
-
+@Suppress("unused")
 abstract class PaplinPlugin : JavaPlugin() {
     /**
      * Method to be overridden for custom load logic.
@@ -35,12 +26,9 @@ abstract class PaplinPlugin : JavaPlugin() {
     open fun disable() {}
 
     /**
-     * Initializes the PluginInstance and the CommandAPI, then calls the load method.
-     * Supports plugin reloads by allowing reassignment.
+     * Initializes the CommandAPI, then calls the load method.
      */
     final override fun onLoad() {
-        // Allow reassignment to support plugin reloads
-        pluginInstance = this
         CommandAPI.onLoad(CommandAPIPaperConfig(this))
         load()
     }
