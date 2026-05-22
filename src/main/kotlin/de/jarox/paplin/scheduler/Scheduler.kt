@@ -3,8 +3,6 @@
 package de.jarox.paplin.scheduler
 
 import de.jarox.paplin.PaplinPlugin
-import de.jarox.paplin.command.CommandContext
-import de.jarox.paplin.pluginInstance
 import org.bukkit.scheduler.BukkitTask
 
 /**
@@ -54,26 +52,3 @@ fun PaplinPlugin.runAsyncTimer(
     delay: Long = 0,
     block: () -> Unit,
 ): BukkitTask = server.scheduler.runTaskTimerAsynchronously(this, block, delay, interval)
-
-/**
- * Convenience function to run a task on the next tick from within a command context.
- *
- * This is equivalent to `runSync(ticks = 1)` and is useful for deferring work
- * to the next server tick, e.g., to avoid modifying world state during certain events.
- *
- * @param block the code to execute on the main thread on the next tick
- * @return the scheduled [BukkitTask] for cancellation or inspection
- */
-fun CommandContext.runNextTick(block: () -> Unit): BukkitTask = server.scheduler.runTaskLater(pluginInstance, block, 1)
-
-/**
- * Convenience function to run a task after a specified delay from within a command context.
- *
- * @param ticks the delay in server ticks before execution
- * @param block the code to execute on the main thread after the delay
- * @return the scheduled [BukkitTask] for cancellation or inspection
- */
-fun CommandContext.runLater(
-    ticks: Long,
-    block: () -> Unit,
-): BukkitTask = server.scheduler.runTaskLater(pluginInstance, block, ticks)

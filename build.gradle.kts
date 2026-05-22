@@ -23,6 +23,8 @@ repositories {
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper.get())
+    compileOnly(libs.commandapi.paper.core)
+    api(libs.commandapi.kotlin.paper)
 }
 
 java {
