@@ -72,7 +72,7 @@ Source: `src/main/kotlin/de/jarox/paplin/`
 
 - **Plugin lifecycle:** `PaplinPlugin.kt` — abstract base extending `JavaPlugin`
 - **Command DSL:** `command/` — Brigadier wrapper (`command { }`, `argument<T>()`, `runs { }`)
-- **Event DSL:** `event/Listeners.kt` — `listen<EventType> { }`
+- **Event DSL:** `event/Listeners.kt` — `listen<EventType>(plugin) { }`, `listener.register(plugin)`
 - **Chat:** `chat/ComponentBuilder.kt` — Kyori Adventure fluent builder
 - **Extensions:** `extension/` — `server`, `onlinePlayers`, `broadcast()`
 - **NMS annotation:** `annotation/NMS.kt` — opt-in for version-fragile APIs

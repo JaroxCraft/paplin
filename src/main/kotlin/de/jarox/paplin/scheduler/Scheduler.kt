@@ -2,7 +2,7 @@
 
 package de.jarox.paplin.scheduler
 
-import de.jarox.paplin.PaplinPlugin
+import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitTask
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitTask
  * @param block the code to execute on the main thread
  * @return the scheduled [BukkitTask] for cancellation or inspection
  */
-fun PaplinPlugin.runSync(
+fun Plugin.runSync(
     ticks: Long = 0,
     block: () -> Unit,
 ): BukkitTask = server.scheduler.runTaskLater(this, block, ticks)
@@ -23,7 +23,7 @@ fun PaplinPlugin.runSync(
  * @param block the code to execute asynchronously
  * @return the scheduled [BukkitTask] for cancellation or inspection
  */
-fun PaplinPlugin.runAsync(block: () -> Unit): BukkitTask = server.scheduler.runTaskAsynchronously(this, block)
+fun Plugin.runAsync(block: () -> Unit): BukkitTask = server.scheduler.runTaskAsynchronously(this, block)
 
 /**
  * Runs a repeating task synchronously on the main server thread.
@@ -33,7 +33,7 @@ fun PaplinPlugin.runAsync(block: () -> Unit): BukkitTask = server.scheduler.runT
  * @param block the code to execute repeatedly on the main thread
  * @return the scheduled [BukkitTask] for cancellation or inspection
  */
-fun PaplinPlugin.runTimer(
+fun Plugin.runTimer(
     interval: Long,
     delay: Long = 0,
     block: () -> Unit,
@@ -47,7 +47,7 @@ fun PaplinPlugin.runTimer(
  * @param block the code to execute repeatedly off the main thread
  * @return the scheduled [BukkitTask] for cancellation or inspection
  */
-fun PaplinPlugin.runAsyncTimer(
+fun Plugin.runAsyncTimer(
     interval: Long,
     delay: Long = 0,
     block: () -> Unit,
