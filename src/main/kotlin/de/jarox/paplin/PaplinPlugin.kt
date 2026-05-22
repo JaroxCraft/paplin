@@ -2,7 +2,8 @@
 
 package de.jarox.paplin
 
-import de.jarox.paplin.command.BrigadierSupport
+import dev.jorel.commandapi.CommandAPI
+import dev.jorel.commandapi.CommandAPIPaperConfig
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -34,30 +35,32 @@ abstract class PaplinPlugin : JavaPlugin() {
     open fun disable() {}
 
     /**
-     * Initializes the PluginInstance and calls the load method.
+     * Initializes the PluginInstance and the CommandAPI, then calls the load method.
      * Supports plugin reloads by allowing reassignment.
      */
     final override fun onLoad() {
         // Allow reassignment to support plugin reloads
         pluginInstance = this
+        CommandAPI.onLoad(CommandAPIPaperConfig(this))
         load()
     }
 
     /**
-     * Calls the enable method.
+     * Enables the CommandAPI and calls the enable method.
      */
     final override fun onEnable() {
+        CommandAPI.onEnable()
         enable()
-
-        if (this.isEnabled) {
-            BrigadierSupport.registerAll()
-        }
     }
 
     /**
-     * Calls the disable method.
+     * Calls the disable method and disables the CommandAPI gracefully.
      */
     final override fun onDisable() {
-        disable()
+        try {
+            disable()
+        } finally {
+            CommandAPI.onDisable()
+        }
     }
 }

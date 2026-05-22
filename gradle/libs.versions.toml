@@ -3,6 +3,11 @@ kotlin = "2.3.21"
 ktlint-plugin = "14.2.0"
 minecraft = "26.1.2"
 paper = "26.1.2.build.64-stable"
+commandapi = "11.2.0"
+
+[libraries]
+commandapi-paper-core = { module = "dev.jorel:commandapi-paper-core", version.ref = "commandapi" }
+commandapi-kotlin-paper = { module = "dev.jorel:commandapi-kotlin-paper", version.ref = "commandapi" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
