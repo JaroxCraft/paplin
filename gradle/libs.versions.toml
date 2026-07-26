@@ -1,8 +1,8 @@
 [versions]
 kotlin = "2.4.10"
 ktlint-plugin = "14.2.0"
-minecraft = "26.1.2"
-paper = "26.1.2.build.64-stable"
+minecraft = "26.2"
+paper = "26.2.build.80-beta"
 commandapi = "11.2.0"
 
 [libraries]

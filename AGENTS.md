@@ -41,7 +41,7 @@ paplinVersion=1.0.0
 ```toml
 # gradle/libs.versions.toml
 [versions]
-minecraft = "26.1.2"
+minecraft = "26.2"
 ```
 
 | Situation | paplinVersion | minecraftVersion |
