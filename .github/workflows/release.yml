@@ -35,8 +35,8 @@ jobs:
             echo "::error::Invalid paplin version format: $PAPLIN_VER. Expected semver (e.g. 1.0.0 or 1.0.0-beta.1)"
             exit 1
           fi
-          if ! echo "$MC_VER" | grep -qP '^\d+\.\d+\.\d+$'; then
-            echo "::error::Invalid minecraft version format: $MC_VER. Expected semver (e.g. 26.1.2)"
+          if ! echo "$MC_VER" | grep -qP '^\d+\.\d+(\.\d+)?$'; then
+            echo "::error::Invalid minecraft version format: $MC_VER. Expected major.minor or major.minor.patch (e.g. 26.2 or 26.1.2)"
             exit 1
           fi
 
