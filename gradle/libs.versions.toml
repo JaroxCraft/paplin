@@ -3,7 +3,7 @@ kotlin = "2.4.10"
 ktlint-plugin = "14.2.0"
 minecraft = "26.2"
 paper = "26.2.build.80-beta"
-commandapi = "11.2.0"
+commandapi = "12.0.0"
 
 [libraries]
 commandapi-paper-core = { module = "dev.jorel:commandapi-paper-core", version.ref = "commandapi" }
