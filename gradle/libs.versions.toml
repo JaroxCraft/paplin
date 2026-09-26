@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 ktlint-plugin = "14.2.0"
 minecraft = "26.2"
 paper = "26.2.build.80-beta"
