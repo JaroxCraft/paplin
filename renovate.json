@@ -4,5 +4,12 @@
     "config:recommended",
     ":disableDependencyDashboard"
   ],
-  "assigneesFromCodeOwners": true
+  "assigneesFromCodeOwners": true,
+  "packageRules": [
+    {
+      "description": "paperweight publishes 2.0.0-SNAPSHOT, which sorts above the 2.0.0 betas and hides them",
+      "matchDepNames": ["io.papermc.paperweight.userdev"],
+      "allowedVersions": "!/-SNAPSHOT$/"
+    }
+  ]
 }
